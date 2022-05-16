@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "678935630483",
+    "project_id": "fiver-quiz-app",
+    "storage_bucket": "fiver-quiz-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678935630483:android:89702c2a34b0bef2f1b366",
+        "android_client_info": {
+          "package_name": "quizappmainappforamiusa.example.quizapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678935630483-37ji54kk72fc116e27cvouvr7aq0lpq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZCvAkbsFyBFTTHMpSt0g_pZdT-nLSDDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678935630483-37ji54kk72fc116e27cvouvr7aq0lpq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
