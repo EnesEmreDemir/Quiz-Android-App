@@ -37,7 +37,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/architects_daughter"
-            android:text="Just simple tagline"
+            android:text="quiz"
             android:textColor="#B2D5FF"
             android:textStyle="bold" />
 

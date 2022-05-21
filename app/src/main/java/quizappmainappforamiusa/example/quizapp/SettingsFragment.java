@@ -7,15 +7,36 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 public class SettingsFragment extends Fragment {
 
 
+    TextView textView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false);
+        View view =  inflater.inflate(R.layout.fragment_settings, container, false);
+
+
+        textView = view.findViewById(R.id.warm_text_show1);
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if(timeOfDay >= 0 && timeOfDay < 12){
+            textView.setText("Good Morning");
+        }else if(timeOfDay >= 12 && timeOfDay < 16){
+            textView.setText("Good Afternoon");
+        }else if(timeOfDay >= 16 && timeOfDay < 21){
+            textView.setText("Good Evening");
+        }else if(timeOfDay >= 21 && timeOfDay < 24){
+            textView.setText("Good Night");
+        }
+
+        return view;
     }
 }

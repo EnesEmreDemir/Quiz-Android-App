@@ -21,11 +21,13 @@
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/quiz_set_image"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                android:background="@drawable/button_colour"/>
+                android:background="@drawable/logo"/>
 
             <TextView
+                android:id="@+id/quiz_set_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/amaranth"
