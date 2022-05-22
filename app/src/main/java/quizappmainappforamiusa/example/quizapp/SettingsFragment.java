@@ -23,7 +23,7 @@ public class SettingsFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_settings, container, false);
 
 
-        textView = view.findViewById(R.id.warm_text_show1);
+        textView = view.findViewById(R.id.warm_text_show3);
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
