@@ -10,6 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -30,8 +31,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,14 +46,15 @@ public class QuizDashbaordActivity extends AppCompatActivity {
     static final float END_SCALE = 0.7f;
 
 
-    Button navToggler_btn, expl_btn , Next_btn;
+    Button navToggler_btn, Next_btn;
     LinearLayout  linearLayout1;
     TextView txtQuestions, txtnumberIndicator;
     Dialog dialog;
     private int count = 0;
     private int position = 0;
+    String topic="";
     private List<questionsModelClass> list;
-    DatabaseReference RootRef;
+    DatabaseReference RootRef,TempRef;
     private int score = 0;
 
     @Override
@@ -67,6 +72,21 @@ public class QuizDashbaordActivity extends AppCompatActivity {
         String string = intent.getStringExtra("Quiz_Set");
 
         RootRef = FirebaseDatabase.getInstance ().getReference ().child("Quiz").child(string).child("Questions");
+
+        TempRef = FirebaseDatabase.getInstance ().getReference ().child("Quiz").child(string);
+
+
+        TempRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                topic = snapshot.child("name").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -100,7 +120,6 @@ public class QuizDashbaordActivity extends AppCompatActivity {
         linearLayout1 = findViewById(R.id.options_layout);
         txtQuestions = findViewById(R.id.question_view);
         txtnumberIndicator = findViewById(R.id.no_of_questions_view);
-        expl_btn = findViewById(R.id.expl_btn);
         Next_btn = findViewById(R.id.next_btn);
         dialog = new Dialog(this, R.style.AnimateDialog);
 
@@ -127,156 +146,22 @@ public class QuizDashbaordActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
+                ToastShow(list.get(position).getExplanation().toString());
 
                 Next_btn.setEnabled(false);
                 Next_btn.setAlpha(0.7f);
                 enableOptions(true);
                 position++;
                 if (position == list.size()) {
+
+
+                    DataSaveToSharedPref(String.valueOf(score),topic);
                     //Score Activities
-                    if (score <= 30) {
-
-                        Button try_again, share;
-                        dialog.setContentView(R.layout.activity_fail_20_layout);
-                        try_again = dialog.findViewById(R.id.try_again_btn);
-                        share = dialog.findViewById(R.id.share_btn);
+                    Intent intent = new Intent(QuizDashbaordActivity.this,ResultShowActivity.class);
+                    intent.putExtra("HELLO",String.valueOf(score));
+                    startActivity(intent);
 
 
-                        try_again.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent BG = new Intent(getApplicationContext(), QuizDashbaordActivity.class); //If User get 20% let him or her play again
-                                startActivity(BG);
-                                finish();
-                            }
-                        });
-
-                        ///Share Quiz Box to friends
-                        share.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setType("text/plain");
-                                String shareBody = "Hey! I just played Quiz Box and it's WONDERFUL!";
-                                String shareSub = "Your subject here";
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
-                                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                                startActivity(Intent.createChooser(sharingIntent, "Share using"));
-                            }
-                        });
-
-                        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-
-                    } else if (score <= 50) {
-
-                        Button try_again, share;
-                        dialog.setContentView(R.layout.activity_pass_50_layout);
-                        try_again = dialog.findViewById(R.id.try_again_btn);
-                        share = dialog.findViewById(R.id.share_btn);
-
-
-                        try_again.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent BG = new Intent(getApplicationContext(), QuizDashbaordActivity.class); ///If User get 50% let him or her play again
-                                startActivity(BG);
-                                finish();
-                            }
-                        });
-
-                        ///Share Quiz Box to friends
-                        share.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setType("text/plain");
-                                String shareBody = "Hey! I just played Quiz Box and it's WONDERFUL!";
-                                String shareSub = "Your subject here";
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
-                                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                                startActivity(Intent.createChooser(sharingIntent, "Share using"));
-                            }
-                        });
-
-                        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-
-                    } else if (score <= 69) {
-
-                        Button promote_btn, share;
-                        dialog.setContentView(R.layout.activity_pass_70_layout);
-                        promote_btn = dialog.findViewById(R.id.nl_btn);
-                        share = dialog.findViewById(R.id.share_btn);
-
-
-
-                        promote_btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent BG = new Intent(getApplicationContext(), MainActivity.class); ///If User get 70% let him to next category
-                                startActivity(BG);
-                                finish();
-                            }
-                        });
-
-                        ///Share Quiz Box to friends
-                        share.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setType("text/plain");
-                                String shareBody = "Hey! I just played Quiz Box and it's WONDERFUL!";
-                                String shareSub = "Your subject here";
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
-                                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                                startActivity(Intent.createChooser(sharingIntent, "Share using"));
-                            }
-                        });
-
-                        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-
-                    } else if ( score >= 70) {
-
-                        Button promote_btn, share;
-                        dialog.setContentView(R.layout.activity_pass_100_layout);
-                        promote_btn = dialog.findViewById(R.id.nl_btn);
-                        share = dialog.findViewById(R.id.share_btn);
-
-
-
-                        promote_btn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent BG = new Intent(getApplicationContext(), MainActivity.class); ///If User get 100% promote him or her to next category
-                                startActivity(BG);
-                            }
-                        });
-
-                        ///Share Quiz Box to friends
-                        share.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-
-                                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
-                                sharingIntent.setType("text/plain");
-                                String shareBody = "Hey! I just played Quiz Box and it's WONDERFUL!";
-                                String shareSub = "Your subject here";
-                                sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSub);
-                                sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
-                                startActivity(Intent.createChooser(sharingIntent, "Share using"));
-                            }
-                        });
-
-
-                        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        dialog.show();
-
-                    }
                     return;
                 }
 
@@ -288,31 +173,31 @@ public class QuizDashbaordActivity extends AppCompatActivity {
 
 
 
-        expl_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                expl_btn.setEnabled(true);
-                expl_btn.setAlpha(0.7f);
-                Next_btn.setEnabled(false);
-                Next_btn.setAlpha(0.7f);
-                enableOptions(true);
-
-                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(QuizDashbaordActivity.this,R.style.AlertDialogTheme);
-                builder.setTitle("Explanation");
-                builder.setIcon(R.drawable.logo);
-                builder.setMessage(list.get(position).getExplanation().toString());
-                builder.setBackground(getResources().getDrawable(R.drawable.input_background , null));
-                builder.setCancelable(false);
-                builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-
-                builder.show();
-            }
-        });
+//        expl_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                expl_btn.setEnabled(true);
+//                expl_btn.setAlpha(0.7f);
+//                Next_btn.setEnabled(false);
+//                Next_btn.setAlpha(0.7f);
+//                enableOptions(true);
+//
+//                MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(QuizDashbaordActivity.this,R.style.AlertDialogTheme);
+//                builder.setTitle("Explanation");
+//                builder.setIcon(R.drawable.logo);
+//                builder.setMessage(list.get(position).getExplanation().toString());
+//                builder.setBackground(getResources().getDrawable(R.drawable.input_background , null));
+//                builder.setCancelable(false);
+//                builder.setNegativeButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+//
+//                builder.show();
+//            }
+//        });
 
     }
 
@@ -324,8 +209,6 @@ public class QuizDashbaordActivity extends AppCompatActivity {
     private void checkAns(Button selectedOptions) {
         enableOptions(false);
         Next_btn.setEnabled(true);
-        expl_btn.setEnabled(true);
-        expl_btn.setAlpha(1);
         Next_btn.setAlpha(1);
         if (selectedOptions.getText().toString().equals(list.get(position).getCorrectAnswer())) {
             //correct Answer
@@ -402,4 +285,48 @@ public class QuizDashbaordActivity extends AppCompatActivity {
             }
         }
     }
+
+
+    private void DataSaveToSharedPref(String data,String topic) {
+
+
+
+        String timeStamp = new SimpleDateFormat("yyyy:MM:dd-HH:mm:ss").format(new Date());
+
+
+        // below line is use to add data to array list.
+        MainActivity.courseModalArrayList.add(new Fav(data,timeStamp,topic));
+        // notifying adapter when new data added.
+        MainActivity.adapter.notifyItemInserted(MainActivity.courseModalArrayList.size());
+
+
+        // method for saving the data in array list.
+        // creating a variable for storing data in
+        // shared preferences.
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+
+        // creating a variable for editor to
+        // store data in shared preferences.
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        // creating a new variable for gson.
+        Gson gson = new Gson();
+
+        // getting data from gson and storing it in a string.
+        String json = gson.toJson(MainActivity.courseModalArrayList);
+
+        // below line is to save data in shared
+        // prefs in the form of string.
+        editor.putString("courses", json);
+
+        // below line is to apply changes
+        // and save data in shared prefs.
+        editor.apply();
+
+
+    }
+
+
+
+
 }

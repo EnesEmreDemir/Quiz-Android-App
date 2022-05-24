@@ -2,15 +2,14 @@ package quizappmainappforamiusa.example.quizapp;
 
 public class QuizSetMode {
 
-    private String name,image;
+    private String name;
 
     public QuizSetMode(){
 
     }
 
-    public QuizSetMode(String name,String image) {
+    public QuizSetMode(String name) {
         this.name = name;
-        this.image = image;
     }
 
     public String getName() {
@@ -21,11 +20,4 @@ public class QuizSetMode {
         this.name = name;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 }

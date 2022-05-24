@@ -3,6 +3,8 @@ package quizappmainappforamiusa.example.quizapp;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import java.util.Calendar;
 public class ResultsFragment extends Fragment {
 
     TextView textView;
+    final private int REQUEST_CODE_PERMISSION = 111;
+    RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -25,15 +29,25 @@ public class ResultsFragment extends Fragment {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
 
-        if(timeOfDay >= 0 && timeOfDay < 12){
-            textView.setText("Good Morning");
-        }else if(timeOfDay >= 12 && timeOfDay < 16){
-            textView.setText("Good Afternoon");
-        }else if(timeOfDay >= 16 && timeOfDay < 21){
-            textView.setText("Good Evening");
-        }else if(timeOfDay >= 21 && timeOfDay < 24){
-            textView.setText("Good Night");
+        textView.setText("Past Results");
+
+
+        recyclerView = view.findViewById(R.id.results_list_view);
+
+
+        if (MainActivity.adapter.getItemCount()!=0){
+            recyclerView.setVisibility(View.VISIBLE);
         }
+
+
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        recyclerView.setHasFixedSize(true);
+
+
+        recyclerView.setLayoutManager(manager);
+
+
+        recyclerView.setAdapter(MainActivity.adapter);
 
         return view;
     }

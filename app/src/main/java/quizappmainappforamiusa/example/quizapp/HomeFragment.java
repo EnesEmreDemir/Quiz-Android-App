@@ -96,8 +96,6 @@ public class HomeFragment extends Fragment {
 
 
                         holder.quiz_name.setText(model.getName());
-                        Picasso.get().load(model.getImage()).placeholder(R.drawable.logo).error(R.drawable.logo).into(holder.circleImageView);
-
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -140,11 +138,9 @@ public class HomeFragment extends Fragment {
     {
 
         TextView quiz_name;
-        CircleImageView circleImageView;
         public StudentViewHolder2(@NonNull View itemView) {
             super ( itemView );
             quiz_name = itemView.findViewById ( R.id.quiz_set_name);
-            circleImageView  = itemView.findViewById(R.id.quiz_set_image);
         }
     }
 

@@ -82,6 +82,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:textAllCaps="false"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/options_btn_bg"
                 android:textSize="13sp" />
@@ -91,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
+                android:textAllCaps="false"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/options_btn_bg"
                 android:textSize="13sp" />
@@ -100,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
+                android:textAllCaps="false"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/options_btn_bg"
                 android:textSize="13sp" />
@@ -109,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="20dp"
+                android:textAllCaps="false"
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/options_btn_bg"
                 android:textSize="13sp" />
@@ -117,32 +121,6 @@
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="15sp"
-            android:weightSum="2"
-            android:orientation="horizontal">
-
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/expl_btn"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_weight="1"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
-                android:text="Explanation"
-                android:alpha="0.7"
-                android:background="@drawable/input_background"
-                android:enabled="false"
-                android:textAllCaps="false"
-                android:textColor="@color/purple_700"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/next_btn"
                 android:layout_width="150dp"
@@ -150,6 +128,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
                 android:layout_marginEnd="10dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginStart="10dp"
                 android:text="Next"
                 android:background="@drawable/input_background"
@@ -160,9 +139,6 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-
-
-        </LinearLayout>
 
 
 
